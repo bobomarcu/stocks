@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stocks Prediction</title>
+    <link href="home.css" type="text/css" rel="stylesheet">
+</head>
+
+<body>
+   
+    <div class="main">
+        <div class="data_inputs">
+            <br>
+                <h1>Stock name</h1>
+                <input class="numestoc"id="Sn" placeholder="Stock name">
+            
+            <div class="data_inputs1">
+                <label for="Yo">Yesterday Open</label>
+                <input id="Yo" type="number" placeholder="Yesterday Open">
+                
+
+                <label for="Yc">Yesterday Close</label>
+            
+                <input id="Yc" type="number" placeholder="Yesterday Close">
+                <label for="Yh">Yesterday High</label>
+                
+                <input id="Yh" type="number" placeholder="Yesterday High">
+            
+                <label for="Yl">Yesterday Low</label>
+            
+                <input id="Yl" type="number" placeholder="Yesterday Low">
+                
+                <label for="YEMA">Yesterday EMA</label>
+            
+                <input id="YEMA" type="number" placeholder="Yesterday EMA">
+            
+            </div>
+            <button class="go" onclick="onclik()">Go!</button>
+            </div>
+       
+            <div id ="secpart"class="data_output" style="display: none;">
+
+                <div class="data_intro">
+                <h2>For: </h2>
+                <h1 id="StockName"></h1>
+                </div>
+                <div class="elemente">
+                <div class="data_output_elemants">
+                    <h4>Today Close Expected</h4>
+                    <h3 id="rezToTC"></h3>
+                </div>
+                <div class="data_output_elemants">
+                    <h4>Today High Expected</h4>
+                    <h3 id="rezToDH1"></h3>
+                </div>
+                <div class="data_output_elemants">
+                    <h4>Today Low Expected</h4>
+                    <h3 id="rezToDL1"></h3>
+                </div>
+                <div class="data_output_elemants">
+                    <h4>Today EMA Expected</h4>
+                    <h3 id="rezToMEMA"></h3>
+                </div>
+                <div class="data_output_elemants">
+                    <h4>Yesterday Resistance 1 Expected</h4>
+                    <h3 id="rezR1"></h3>
+                </div>
+                <div class="data_output_elemants">
+                    <h4>Yesterday Resistance 2 Expected</h4>
+                    <h3 id="rezR2"></h3>
+                </div>
+                <div class="data_output_elemants">
+                    <h4>Yesterday Support 1 Expected </h4>
+                    <h3 id="rezS1"></h3>
+                </div>
+                <div class="data_output_elemants">
+                    <h4>Yesterday Support 2 Expected</h4>
+                    <h3 id="rezS2"></h3>
+                </div>
+                <div class="data_output_elemants">
+                    <h4>Today Resistance 1 Expected</h4>
+                    <h3 id="rezR1"></h3>
+                </div>
+                <div class="data_output_elemants">
+                    <h4>Today Resistance 2 Expected</h4>
+                    <h3 id="rezR2"></h3>
+                </div>
+                <div class="data_output_elemants">
+                    <h4>Today Support 1 Expected </h4>
+                    <h3 id="rezS1"></h3>
+                </div>
+
+                <div class="data_output_elemants">
+                    <h4>Today Support 2 Expected</h4>
+                    <h3 id="rezS2"></h3>
+                </div>
+            
+                <div class="data_output_elemants">
+                    <h4>Today Change% Expected</h4>
+                    <h3 id="rezChange"></h3>
+                </div>
+            </div>
+        
+            
+        </div>
+       
+    </div>
+    
+    <div class=optiuni>
+        <a href="https://finance.yahoo.com/"><button class="yahoo"><img src="yahoo-finance-logo-text-alphabet-symbol-word-transparent-png-225125.png" height="20px"></button></a>
+        
+        <a class="insta1"href="https://www.instagram.com/bobomarcu/"><button  class="insta"><img height="20px" src="insta.png"></button></a>
+    </div>
+    
+
+    
+    
+    
+    <script>
+        
+        function onclik(){
+            
+            document.getElementById("secpart").style.display="block";
+            var numestoc = String(document.getElementById("Sn").value);
+            console.log(numestoc);
+            //variabile de la tastatura
+            document.getElementById("StockName").innerHTML= numestoc.toUpperCase();
+
+            var YesterdayOpen = parseFloat(document.getElementById("Yo").value);
+            var YesterdayHigh = parseFloat(document.getElementById("Yh").value);
+            var YesterdayLow =parseFloat(document.getElementById("Yl").value);
+            var YesterdayClose = parseFloat(document.getElementById("Yc").value);
+            var YesterdayEMA = parseFloat(document.getElementById("YEMA").value);
+            //variabile calcule 
+            
+            var pivot = (YesterdayHigh+ YesterdayLow + YesterdayClose)/3
+            var res1 = (pivot *2 )- YesterdayLow;
+            var res2 = pivot+(YesterdayHigh-YesterdayLow);
+            var sup1 = (pivot*2)-YesterdayHigh;
+            var sup2 = pivot-(YesterdayHigh-YesterdayLow);
+            var ToDHigh = 0;
+            var ToDLow = 0; 
+            var X = 0;
+            if(YesterdayClose < YesterdayOpen){
+                x = 2*YesterdayLow + YesterdayHigh + YesterdayClose;
+                console.log(x);
+            }
+            else if(YesterdayClose > YesterdayOpen){
+                x = 2*YesterdayHigh + YesterdayClose + YesterdayLow;
+                console.log(x);
+            }else if(YesterdayClose === YesterdayOpen){
+                x = 2*YesterdayClose + YesterdayHigh + YesterdayHigh;
+                console.log(x);
+            }
+            var TodayHigh = x/2-YesterdayLow;
+            var TodayLow = x/2-YesterdayHigh;
+
+
+            var TodayClose = close_rand(TodayLow,TodayHigh);
+            console.log(TodayClose);
+            
+            function close_rand(min,max){
+                return Math.floor(Math.random() * (max - min + 1) ) + min;
+            }
+            var M = 2/(2+1)
+            var EMA = (TodayClose-YesterdayEMA)*M + YesterdayEMA*(1-M);
+            var change = (TodayClose-YesterdayClose)/YesterdayClose * 100;
+
+            if (TodayClose >YesterdayClose){
+                document.getElementById("rezChange").style.color="green";
+                beep();
+                
+                
+            }else if(TodayClose === YesterdayClose){
+                document.getElementById("rezChange").style.color="blue";
+            }else if(TodayClose < YesterdayClose){
+                document.getElementById("rezChange").style.color="red";
+                beep2();
+                
+            }
+            function beep() {
+            var snd = new Audio("stockup.mp3");  
+            snd.play();
+            }
+            function beep2(){
+                var snd2 = new Audio("loss.mp3");  
+                snd2.play();
+            }
+            
+            
+            
+
+            //legaturi in site 
+            document.getElementById("rezToDH1").innerHTML= TodayHigh.toFixed(3);
+            document.getElementById("rezToDL1").innerHTML= TodayLow.toFixed(3);
+            document.getElementById("rezS1").innerHTML=sup1.toFixed(3);
+            document.getElementById("rezS2").innerHTML=sup2.toFixed(3);
+            document.getElementById("rezR1").innerHTML=res1.toFixed(3);
+            document.getElementById("rezR2").innerHTML=res2.toFixed(3);
+            document.getElementById("rezToTC").innerHTML=TodayClose.toFixed(3);
+            document.getElementById("rezToMEMA").innerHTML=EMA.toFixed(3);
+            document.getElementById("rezChange").innerHTML=change.toFixed(2);
+
+           
+        }
+
+       
+</script>
+<script>
+            
+               
+         
+        
+</script>
+
+  
+</body>
+</html>
